@@ -10,14 +10,24 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($tableData['data'] as $index => $row)
-            <tr class="@if($index % 2 === 0) bg-gray-400 @else bg-gray-800 @endif">
+        @foreach ($tableData['data'] as $row)
+            @if($loop->odd)
+            <tr class="bg-gray-300 border-b dark:bg-white-800 dark:border-gray-700">
                 @foreach ($row as $cell)
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{$cell}}
-                    </th>    
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray">
+                    {{$cell}}
+                </th>
                 @endforeach
-            </tr>    
+            </tr>
+            @else
+            <tr class="bg-gray-800 border-b dark:bg-gray-800 dark:border-gray-700">
+                @foreach ($row as $cell)
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{$cell}}
+                </th>
+                @endforeach
+            </tr>
+            @endif
             @endforeach
         </tbody>
     </table>
