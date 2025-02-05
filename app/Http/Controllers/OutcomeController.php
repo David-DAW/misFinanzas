@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Income;
+use App\Models\Outcome;
 
 use Illuminate\Http\Request;
 
-class IncomeController extends Controller
+class OutcomeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,15 +13,15 @@ class IncomeController extends Controller
     public function index()
     {
 
-        $arrayIncomes = Income::all();
-        $heading = ['date', 'amount', 'category'];
+        $arrayOutcomes = Outcome::all();
+        $heading = ['date', 'amount', 'payment'];
 
         $tableData = [
             'heading' => $heading,
             'data' => []
         ];
 
-        foreach ($arrayIncomes as $value) {
+        foreach ($arrayOutcomes as $value) {
             $valoresArray = $value->getOriginal();
             $data = [];
 
@@ -35,8 +35,19 @@ class IncomeController extends Controller
 
         // dump($tableData);
 
+        // $tableData = [
+        //     'heading' => [
+        //         'date','category','amount'
+        //     ],
+        //     'data' => [
+        //         ['12/12/2012','salary','2500'],
+        //         ['12/01/2013','salary','2500'],
+        //         ['12/02/2013','salary','2550']
+        //     ]
+
+        // ]; 
         //Aquí la lógica de negocio para el index
-        return view('income.index',['title' => 'My incomes','tableData' => $tableData]);
+        return view('outcome.index',['title' => 'My outcomes','tableData' => $tableData]);
         
     }
 

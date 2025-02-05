@@ -30,5 +30,3 @@
         </tbody>
     </table>
 </div> <br>
-<!-- <x-button type="submit"/> -->
-<x-button href="#"/>
