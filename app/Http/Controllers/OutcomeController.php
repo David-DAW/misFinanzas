@@ -47,7 +47,7 @@ class OutcomeController extends Controller
 
         // ]; 
         //Aquí la lógica de negocio para el index
-        return view('outcome.index',['title' => 'My outcomes','tableData' => $tableData]);
+        return view('outcome.index',['title' => 'My outcomes', 'type' => 'outcomes','tableData' => $tableData]);
         
     }
 

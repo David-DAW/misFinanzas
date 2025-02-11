@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Models\Income;
-
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class IncomeController extends Controller
 {
@@ -14,7 +15,7 @@ class IncomeController extends Controller
     {
 
         $arrayIncomes = Income::all();
-        $heading = ['date', 'amount', 'category'];
+        $heading = ['id', 'date', 'amount', 'category'];
 
         $tableData = [
             'heading' => $heading,
@@ -36,7 +37,7 @@ class IncomeController extends Controller
         // dump($tableData);
 
         //Aquí la lógica de negocio para el index
-        return view('income.index',['title' => 'My incomes','tableData' => $tableData]);
+        return view('income.index',['title' => 'My incomes', 'type' => 'incomes','tableData' => $tableData]);
         
     }
 
@@ -45,8 +46,7 @@ class IncomeController extends Controller
      */
     public function create()
     {
-        //
-        return '<p>Esta es la página del create de incomes</p>';
+        return view('income.create',['title' => 'Create Income']);
     }
 
     /**
@@ -54,7 +54,14 @@ class IncomeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $income = new Income;
+
+        $income->date = Carbon::createFromFormat('d/m/Y', $request->input('date'))->format('Y-m-d');         
+        $income -> amount = request() -> input('amount');
+        $income -> category = request() -> input('category');
+        $income -> save();
+
+        return to_route('incomes.index');
     }
 
     /**
@@ -62,8 +69,12 @@ class IncomeController extends Controller
      */
     public function show(string $id)
     {
-        //
-        return '<p>Esta es la página del show de incomes</p>';
+        $income = Income::find($id);
+        return view('income.show', [
+            'title' => 'My income',
+            'id' => $id,
+            'income' => $income
+        ]);
     }
 
     /**
@@ -71,8 +82,8 @@ class IncomeController extends Controller
      */
     public function edit(string $id)
     {
-        //
-        return '<p>Esta es la página del edit de incomes</p>';
+        $income = Income::find($id);
+        return view('income.edit', ['title' => 'Edit Income'], ['income' => $income], ['id' => $id]);
     }
 
     /**
@@ -80,8 +91,14 @@ class IncomeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-        
+        $income = Income::find($id);
+
+        $income->date = Carbon::createFromFormat('d/m/Y', $request->input('date'))->format('Y-m-d');         
+        $income -> amount = request() -> input('amount');
+        $income -> category = request() -> input('category');
+        $income -> save();
+
+        return to_route('incomes.index');
     }
 
     /**
@@ -89,6 +106,9 @@ class IncomeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $income = Income::find($id);
+
+        $income -> delete();
+        return to_route('incomes.index');
     }
 }

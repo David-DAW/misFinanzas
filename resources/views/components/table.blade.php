@@ -1,3 +1,5 @@
+{{-- @props(['type']); --}}
+
 <div class="relative overflow-x-auto shadow shadow-lg">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -7,6 +9,7 @@
                         {{$heading}}
                     </th>    
                 @endforeach
+                <th>&nbsp</th>
             </tr>
         </thead>
         <tbody>
@@ -23,10 +26,21 @@
                             <td class="px-6 py-4 text-gray-900 whitespace-nowrap">
                                 {{$cell}}
                             </td>
-                        @endif
+                        @endif                        
                     @endforeach
+                    
+                    <td>
+                        <a href="{{ route($type . '.edit', ['id' => $row[0]]) }}">Edit |</a>
+                        <a href="{{ route($type . '.delete', ['id' => $row[0]]) }}">Delete |</a>
+                        <a href="{{ route($type . '.show', ['id' => $row[0]]) }}">Show</a>
+                    </td>
                 </tr>    
             @endforeach
         </tbody>
     </table>
 </div> <br>
+
+
+
+
+
