@@ -4,14 +4,14 @@
             <x-alert type="error" message="'Parece que ha habido algunos problemas'" />
         @endif
 
-        <form action=" {{ route('incomes.store') }}" method="POST" class="max-w-sm mx-auto">
-            @csrf
+        <form action=" {{ route('outcomes.update', $outcome->id) }}" method="POST" class="max-w-sm mx-auto">
+            @csrf @method('patch')
             <div class="mb-4">
                 <label for="email"
                     class="block mb-2 text-base font-medium text-black-900 dark:text-black">Amount:</label>
                 <input type="number" name="amount" step="any"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ old('amount') }}"/>
+                    value="{{ old('amount', $outcome->amount) }}"/>
                 @error('amount')
                     <div class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</div>
                 @enderror
@@ -22,21 +22,19 @@
                   class="block mb-2 text-base font-medium text-black-900 dark:text-black">Date:</label>
               <input type="text" name="date"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  value="{{ old('date') }}"/>
+                  value="{{ old('date', $outcome->date) }}"/>
               @error('date')
                   <div class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</div>
               @enderror
           </div>
 
             <div class="mb-3">
-                <label for="countries" class="block mb-1 text-base font-medium text-gray-900 dark:text-black">Select an
-                    option</label>
-                <select name="category"
+                <label for="countries" class="block mb-1 text-base font-medium text-gray-900 dark:text-black">Payment</label>
+                <select name="payment"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    {{-- <option>Choose a category</option> --}}
-                    <option value="Sales">Sales</option>
-                    <option value="Marketing">Marketing</option>
-                    <option value="Tickets">Tickets</option>
+                    <option value="Bizum" {{old('payment', $outcome->payment == 'Bizum' ? 'selected' : '')}}>Bizum</option>
+                    <option value="Cash" {{old('payment', $outcome->payment == 'Cash' ? 'selected' : '')}}>Cash</option>
+                    <option value="Transaction" {{old('payment', $outcome->payment == 'Transaction' ? 'selected' : '')}}>Transaction</option>
                 </select>
             </div>
 

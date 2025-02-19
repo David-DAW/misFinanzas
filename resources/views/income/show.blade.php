@@ -3,8 +3,9 @@
         <h2>Id: {{$income->id}}</h2>
         <h2>Fecha: {{$income->date}}</h2>
         <h2>Cantidad: {{$income->amount}}</h2>
-        <h2>Categoría: {{$income->category}}</h2>
+        <h2>Categoría: {{$income->categories->name}}</h2>
     </div>
+    {{-- <x-button href="{{ route('incomes.index') }}">Inicio</x-button> --}}
     <x-button href="{{ route('incomes.index') }}">Inicio</x-button>
   </x-layouts.index>
 

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 use App\Models\Outcome;
-
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class OutcomeController extends Controller
 {
@@ -14,7 +16,7 @@ class OutcomeController extends Controller
     {
 
         $arrayOutcomes = Outcome::all();
-        $heading = ['date', 'amount', 'payment'];
+        $heading = ['id','date', 'amount', 'payment'];
 
         $tableData = [
             'heading' => $heading,
@@ -32,22 +34,7 @@ class OutcomeController extends Controller
             $tableData['data'][] = $data;
 
         }
-
-        // dump($tableData);
-
-        // $tableData = [
-        //     'heading' => [
-        //         'date','category','amount'
-        //     ],
-        //     'data' => [
-        //         ['12/12/2012','salary','2500'],
-        //         ['12/01/2013','salary','2500'],
-        //         ['12/02/2013','salary','2550']
-        //     ]
-
-        // ]; 
-        //Aquí la lógica de negocio para el index
-        return view('outcome.index',['title' => 'My outcomes', 'type' => 'outcomes','tableData' => $tableData]);
+        return view('outcome.index',['title' => 'My spendings', 'type' => 'outcomes','tableData' => $tableData]);
         
     }
 
@@ -57,7 +44,7 @@ class OutcomeController extends Controller
     public function create()
     {
         //
-        return '<p>Esta es la página del create de incomes</p>';
+        return view('outcome.create', ['title' => 'Create new spending']);
     }
 
     /**
@@ -65,7 +52,20 @@ class OutcomeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $outcome = new Outcome;
+
+        $validateData = $request -> validate([
+            'amount' => ['required', 'gt:30'],
+            'date' => ['required'],
+            'payment' => ['required']
+        ]);
+
+        $outcome-> date = Carbon::createFromFormat('d/m/Y', $request->input('date'))->format('Y-m-d'); 
+        $outcome -> amount = $request -> input('amount');
+        $outcome -> payment = $request -> input('payment');
+        $outcome -> save();
+
+        return to_route('outcomes.index')->with('success', 'A new outcome has been registered!');
     }
 
     /**
@@ -73,8 +73,13 @@ class OutcomeController extends Controller
      */
     public function show(string $id)
     {
-        //
-        return '<p>Esta es la página del show de incomes</p>';
+        $outcome = Outcome::find($id);
+        return view(
+            'outcome.show', [
+            'title' => 'My spending',
+            'id' => $id,
+            'outcome' => $outcome
+        ]);
     }
 
     /**
@@ -82,8 +87,8 @@ class OutcomeController extends Controller
      */
     public function edit(string $id)
     {
-        //
-        return '<p>Esta es la página del edit de incomes</p>';
+        $outcome = Outcome::find($id);
+        return view('outcome.edit', ['title' => 'Edit spending', 'outcome' => $outcome]);
     }
 
     /**
@@ -91,7 +96,13 @@ class OutcomeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $outcome = Outcome::find($id);
+        $outcome-> date = Carbon::createFromFormat('d/m/Y', $request->input('date'))->format('Y-m-d'); 
+        $outcome -> amount = $request ->input('amount');
+        $outcome -> payment = $request -> input('payment');
+        $outcome -> save();
+
+        return to_route('outcomes.index')->with('success', 'The outcome ' . $id . ' has been updated');
         
     }
 
@@ -100,6 +111,9 @@ class OutcomeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $outcome = Outcome::find($id);
+
+        $outcome -> delete();
+        return to_route('outcomes.index')->with('warning', 'The outcome ' . $id . ' has been deleted');    
     }
 }

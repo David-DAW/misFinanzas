@@ -1,6 +1,6 @@
-{{-- @props(['type']); --}}
+<x-layouts.index :title="$title">
 
-<div class="relative overflow-x-auto shadow shadow-lg">
+  <div class="relative overflow-x-auto shadow shadow-lg">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
@@ -15,8 +15,9 @@
         <tbody>
             @foreach ($tableData['data'] as $index => $row)
                 <!-- Alternating row colors between white and light blue -->
+                {{-- @dump($row); --}}
                 <tr class="{{ $loop->even ? 'bg-white' : 'bg-blue-50' }} border-b">
-                    @foreach ($row as $key => $cell)
+                    @foreach ($row as $cell)
                         <!-- First column as <th> and others as <td> -->
                         @if ($loop->first)
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
@@ -28,19 +29,17 @@
                             </td>
                         @endif                        
                     @endforeach
-                    
+
                     <td>
-                        <button><a href="{{ route($type . '.edit', ['id' => $row[0]]) }}">Edit |</a></button>
-                        <button><a href="{{ route($type . '.delete', ['id' => $row[0]]) }}">Delete |</a></button>
-                        <button><a href="{{ route($type . '.show', ['id' => $row[0]]) }}">Show</a></button>
+                      <button><a href="{{ route($type . '.show', ['id' => $row[0]]) }}">Show</a></button>
                     </td>
                 </tr>    
             @endforeach
         </tbody>
     </table>
 </div> <br>
+  {{-- <div class="m-2">
+    <x-button href="{{ route($type . '.create') }}">Add Category</x-button>
+  </div> --}}
 
-
-
-
-
+</x-layouts.index>

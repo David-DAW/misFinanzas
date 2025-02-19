@@ -4,7 +4,7 @@
             <x-alert type="error" message="'Parece que ha habido algunos problemas'" />
         @endif
 
-        <form action=" {{ route('incomes.store') }}" method="POST" class="max-w-sm mx-auto">
+        <form action=" {{ route('outcomes.store') }}" method="POST" class="max-w-sm mx-auto">
             @csrf
             <div class="mb-4">
                 <label for="email"
@@ -29,14 +29,12 @@
           </div>
 
             <div class="mb-3">
-                <label for="countries" class="block mb-1 text-base font-medium text-gray-900 dark:text-black">Select an
-                    option</label>
-                <select name="category"
+                <label for="countries" class="block mb-1 text-base font-medium text-gray-900 dark:text-black">Payment</label>
+                <select name="payment"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    {{-- <option>Choose a category</option> --}}
-                    <option value="Sales">Sales</option>
-                    <option value="Marketing">Marketing</option>
-                    <option value="Tickets">Tickets</option>
+                    <option value="Bizum">Bizum</option>
+                    <option value="Cash">Cash</option>
+                    <option value="Transaction">Transaction</option>
                 </select>
             </div>
 

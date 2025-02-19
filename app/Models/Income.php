@@ -6,4 +6,8 @@ class Income extends Model
 {
     use HasFactory;
     protected $fillable = ['date', 'amount', 'category'];
+
+    public function categories() {
+        return $this->belongsTo(Category::class, 'id_category');
+    }
 }
